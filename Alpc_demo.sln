@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.33919.361
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alpc_demo", "Alpc_demo.vcxproj", "{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Debug|x64.ActiveCfg = Debug|x64
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Debug|x64.Build.0 = Debug|x64
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Debug|x86.ActiveCfg = Debug|Win32
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Debug|x86.Build.0 = Debug|Win32
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Release|x64.ActiveCfg = Release|x64
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Release|x64.Build.0 = Release|x64
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Release|x86.ActiveCfg = Release|Win32
+		{BB24D3DB-DF02-4284-BBCA-734160BEFCA2}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {305B1F56-F6B7-4584-B759-AE5EC6786E6E}
+	EndGlobalSection
+EndGlobal

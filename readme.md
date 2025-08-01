@@ -1,0 +1,2 @@
+Rarely there have been a ALPC C/S asynchronous communication sample, I did some research and write this demo. If you're interested in writing
+a high performance ALPC server which can also send messages bidirectionally, try start from this demo 
