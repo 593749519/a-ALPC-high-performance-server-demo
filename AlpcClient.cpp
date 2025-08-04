@@ -15,11 +15,11 @@ DWORD AlpcClient::Start(const std::wstring& server_port_name, int tmo)
 	InitializeObjectAttributes(&objPort, &usPortName, 0, 0, 0);
 
 	RtlSecureZeroMemory(&port_attr_, sizeof(port_attr_));
-	port_attr_.Flags = ALPC_PORTFLG_ALLOWIMPERSONATION;
+	port_attr_.Flags = ALPC_PORTFLG_ALLOW_LPC_REQUESTS | ALPC_PORTFLG_ALLOWIMPERSONATION;
 	port_attr_.SecurityQos.Length = sizeof(port_attr_.SecurityQos);
 	port_attr_.SecurityQos.ImpersonationLevel = SecurityIdentification;
 	port_attr_.SecurityQos.EffectiveOnly = TRUE;
-	port_attr_.MaxMessageLength = ALPC_MAX_LEN - sizeof(PORT_MESSAGE);
+	port_attr_.MaxMessageLength = ALPC_MAX_LEN;
 
 	//default buffer to max size
 	recv_buffer_.resize(ALPC_MAX_LEN);
@@ -133,10 +133,20 @@ DWORD AlpcClient::SendData(const std::vector<unsigned char>& data, int tmo)
 	{
 		PPORT_MESSAGE msg_ptr = (PPORT_MESSAGE)&recv_buffer_[0];
 		int type = msg_ptr->u2.s2.Type & 0xff;
-		if (type == LPC_REPLY)
+		switch (type)
 		{
-			CustomHeader* header_ptr = (CustomHeader*)(msg_ptr + 1);
-			std::cout << "recved request ack, custom message id=" << header_ptr->id_ << std::endl;
+		case LPC_REQUEST:
+			std::cout << "server request" << std::endl;
+			break;
+		case LPC_REPLY:
+			{
+				CustomHeader* header_ptr = (CustomHeader*)(msg_ptr + 1);
+				std::cout << "server reply, message id=" << header_ptr->id_ << std::endl;
+			}
+			break;
+		default:
+			std::cout << "unhandled request " << type << std::endl;
+			break;
 		}
 	}
 	return NT_SUCCESS(status) ? ERROR_SUCCESS : RtlNtStatusToDosError(status);
@@ -218,11 +228,14 @@ void AlpcClient::Dispatch()
 			case LPC_REPLY:
 			{
 				CustomHeader* header_ptr = (CustomHeader*)(msg_ptr + 1);
-				std::cout << "recved request ack, custom message id=" << std::dec << header_ptr->id_ << std::endl;
-			}
-			break;
-			default:
+				std::cout << "server reply, message id=" << std::dec << header_ptr->id_ << std::endl;
 				break;
+			}
+			case LPC_REQUEST:
+				std::cout << "server request" << std::endl;
+				break;
+			default:
+				std::cout << "unhandled request " << lpc_type << std::endl;
 			}
 		}
 

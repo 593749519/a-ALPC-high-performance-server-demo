@@ -42,7 +42,6 @@ private:
 	std::atomic<__int64> next_client_id_{ 0 };
 	std::shared_mutex clients_lock_;
 	std::map<__int64, std::unique_ptr<CustomPortContext>> port_contexts_;
-	std::map<__int64, std::unique_ptr<ReassembleInfo>> reassemble_infos_;
 
 	HANDLE iocp_handle_{ nullptr };
 

@@ -44,7 +44,7 @@ private:
 	std::vector<std::vector<unsigned char>> raw_msgs_;
 };
 
-#define ALPC_MAX_LEN		0x10000
+#define ALPC_MAX_LEN		0xFFFF
 #define ALPC_MAX_DATA_LEN	(ALPC_MAX_LEN - sizeof(PORT_MESSAGE))
 #define ALPC_MAX_CUSTOM_PAYLOAD_LEN	(ALPC_MAX_DATA_LEN - sizeof(CustomHeader))
 
@@ -61,14 +61,4 @@ using CustomPortContext = struct
 	HANDLE		comm_port_handle{ NULL };
 	//wchar_t		client_uuid[40] = { 0 };
 	CLIENT_ID	process_info = { 0 };
-};
-
-using ReassembleInfo = struct
-{
-	__int64 id_{ -1LL };
-	int total_len_{ 0 };
-	int recved_len{ 0 };
-	int chunk_count_{ 0 };
-	int recved_count_{ 0 };
-	std::vector<unsigned char> data_;
 };

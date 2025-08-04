@@ -38,10 +38,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	//wait some time for clients' thread to start
+	std::cout << "Wait 2s for all clients' threads started..." << std::endl;
 	::Sleep(3000);
 
 	//post data
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		for (auto& client : clients)
 		{
@@ -52,7 +53,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 
-	::Sleep(3000);
+	//wait for all posted received
+	std::cout << "Wait for 30s for all posted and received..." << std::endl;
+	::Sleep(30000);
 
 	//close clients
 	{

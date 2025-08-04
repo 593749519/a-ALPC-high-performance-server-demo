@@ -30,7 +30,7 @@ DWORD AlpcServer::Start(const std::wstring& port_name)
 	port_attr_.SecurityQos.Length = sizeof(port_attr_.SecurityQos);
 	port_attr_.SecurityQos.ImpersonationLevel = SecurityIdentification;
 	port_attr_.SecurityQos.EffectiveOnly = TRUE;
-	port_attr_.MaxMessageLength = ALPC_MAX_LEN - sizeof(PORT_MESSAGE);
+	port_attr_.MaxMessageLength = ALPC_MAX_LEN;
 
 	status = NtAlpcCreatePort(&listen_handle_, &objPort, &port_attr_);
 	if (!NT_SUCCESS(status))
@@ -190,9 +190,6 @@ DWORD AlpcServer::OnIncomingConnection(PPORT_MESSAGE msg_ptr, PALPC_MESSAGE_ATTR
 		port_context->comm_port_handle = comm_port_handle;
 		port_context->process_info = msg_ptr->ClientId;
 		port_contexts_[id] = std::move(port_context);
-
-		std::unique_ptr<ReassembleInfo> reassemble = std::make_unique<ReassembleInfo>();
-		reassemble_infos_[id] = std::move(reassemble);
 	}
 
 	return status;
@@ -294,7 +291,7 @@ NTSTATUS AlpcServer::DispatchInternal()
 		OnReceiveMessage((PPORT_MESSAGE)&recv_buf[0], attr_ptr);
 		break;
 	case LPC_REPLY:
-		//for server, don't process it
+		std::cout << "client reply" << std::endl;
 		break;
 	case LPC_DATAGRAM:
 		std::cout << "datagram " << std::endl;
